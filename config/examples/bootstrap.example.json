@@ -1,0 +1,7 @@
+{
+  "synthetic": true,
+  "purpose": "bounded-bootstrap-verification",
+  "gate_1": "recovery-required",
+  "engineering_start_authorized": false,
+  "product_implementation": false
+}
