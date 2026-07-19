@@ -1,0 +1,56 @@
+name: Bounded bootstrap checks
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify CPython 3.12
+        run: |
+          python --version
+          python -c "import sys; assert sys.version_info[:2] == (3, 12), sys.version"
+
+      - name: Verify root commit contract
+        env:
+          ROOT_SHA: b8ca6ed444f972af2968c007c3be1e3342347efa
+        run: |
+          test "$(git rev-list --parents -n 1 "$ROOT_SHA" | awk '{print NF-1}')" -eq 0
+          test "$(git ls-tree --name-only "$ROOT_SHA" | wc -l)" -eq 1
+          test "$(git ls-tree --name-only "$ROOT_SHA")" = "README.md"
+          test "$(git rev-parse origin/main)" = "$ROOT_SHA"
+
+      - name: First clean rebuild
+        run: |
+          python scripts/clean.py
+          python scripts/check.py
+          python scripts/test.py
+          python scripts/build.py
+          python scripts/artifact_identity.py
+
+      - name: Second clean rebuild
+        run: |
+          python scripts/clean.py
+          python scripts/check.py
+          python scripts/test.py
+          python scripts/build.py
+          python scripts/artifact_identity.py
+
+      - name: Final boundary checks
+        run: |
+          python scripts/check_secrets.py
+          python scripts/check_synthetic_data.py
+          git diff --exit-code
+          git status --short
