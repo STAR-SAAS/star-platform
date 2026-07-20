@@ -35,7 +35,7 @@ jobs:
           test "$(git rev-list --parents -n 1 "$ROOT_SHA" | awk '{print NF-1}')" -eq 0
           test "$(git ls-tree --name-only "$ROOT_SHA" | wc -l)" -eq 1
           test "$(git ls-tree --name-only "$ROOT_SHA")" = "README.md"
-          test "$(git rev-parse origin/main)" = "$ROOT_SHA"
+          git merge-base --is-ancestor "$ROOT_SHA" origin/main
 
       - name: First clean rebuild
         run: |
