@@ -1,0 +1,6 @@
+{
+  "environment": "local",
+  "synthetic_data_only": true,
+  "external_secret_reference": "NOT_CONFIGURED",
+  "logging_level": "INFO"
+}

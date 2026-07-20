@@ -1,0 +1,9 @@
+{
+  "synthetic_data": true,
+  "fixture_id": "SYNTHETIC-BOOTSTRAP-001",
+  "tenant_id": "TENANT-DEMO-001",
+  "record_type": "repository-bootstrap",
+  "contains_customer_data": false,
+  "contains_kyc_data": false,
+  "contains_payment_data": false
+}

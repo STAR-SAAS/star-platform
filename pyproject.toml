@@ -1,0 +1,9 @@
+[project]
+name = "star-platform-bounded-bootstrap"
+version = "0.0.0"
+requires-python = ">=3.12,<3.13"
+description = "Temporary standard-library-only bounded bootstrap verification harness."
+
+[tool.star_platform]
+status = "bounded-bootstrap-only"
+third_party_dependencies = false
